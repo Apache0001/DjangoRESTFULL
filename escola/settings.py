@@ -8,6 +8,11 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
+
+Token Felicity: c3e2d5b352286090468c1cc314858b688574e8c2
+Token Pablo: add123c1d129a465ea004e4e86702d3769a8df10
+
+
 """
 
 from pathlib import Path
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     #Bibliotecas extras
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
 
     # Apps
     'cursos.apps.CursosConfig',
@@ -82,8 +88,12 @@ WSGI_APPLICATION = 'escola.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'djangoEscola',
+        'HOST':'localhost',
+        'USER':'root',
+        'PASSWORD': '',
+        'PORT':'3306',
     }
 }
 
@@ -130,14 +140,16 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
 #DRF
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    )
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+
 }
