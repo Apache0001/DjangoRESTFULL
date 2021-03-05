@@ -7,7 +7,8 @@ from .permissions import EhSuperUser
 
 
 class CursosAPIView(generics.ListCreateAPIView):
-    permission_classes = (permissions.DjangoModelPermissions,)
+    throttle_scope = 'cursos'
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
